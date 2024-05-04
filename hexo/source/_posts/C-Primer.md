@@ -237,3 +237,23 @@ template<> void view_Template<job>(job a);//具体化
 这会直接实例化一个函数，（也叫一个函数定义）。
 
 显示具体化也会直接实例化。
+
+auto和decltype的使用
+
+template `<class T1,class T2>`
+
+```cpp
+auto gt(T1 x,T2y)->decltype(x+y)
+{
+	... 
+	return x + y;
+}
+```
+
+//auto 是一个占位符，由于返回类型不能确定，例如t1是int t2是float，因此decltype关键字可以检测后面表达式或者变量的类型。结合auto可以实现可适应返回类型。指针和引用可以被const和非const重载，但是如果出现两个其他的完全匹配函数则会出现二义性，出现报错。
+
+![1714813712165](image/C-Primer/1714813712165.png)
+
+2024.5/4结束
+
+## Chapter9内存模型和命名空间
