@@ -204,3 +204,5 @@ C++不允许相同参数不同返回值的重载。必须不同参。
 long myfunction(int a,double b); 会被转化为内部不同的接口表示 ?myfunction@@YAXH
 
 //做个git测试
+
+//2次测试
