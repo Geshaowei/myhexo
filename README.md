@@ -1,1 +1,5 @@
 # myhexo
+
+test
+
+test2
