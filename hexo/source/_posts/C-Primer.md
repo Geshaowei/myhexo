@@ -202,3 +202,38 @@ C++不允许相同参数不同返回值的重载。必须不同参。
 实现重载的底层是编译器会对函数进行名称修饰或者名称矫正
 
 long myfunction(int a,double b); 会被转化为内部不同的接口表示 ?myfunction@@YAXH
+
+### tamplate函数模板
+
+tamplate `<typename/class T>//typename 和 class二选一，class属于新增标准，但是typename仍然可用,T为自定义类型。名字可以更改。`
+
+```cpp
+//示例函数  模板加函数重载
+tamplate <typename T>
+void testTemplate(T t);
+tamplate<typename T>
+void testTemplate(T t[],int n);
+//显示具体化模板
+struct job{
+	int a;
+	int b;
+	string name;
+}
+void view_Template(job a); //非模板函数
+template<class T>
+void view_Template(T a);//模板函数
+template<> void view_Template<job>(job a);//具体化
+//调用优先级为 非模板 > 具体化 >模板函数
+```
+
+注意模板并非函数定义，在调用时候才会根据参数生成一个函数实例。（编译器使用模板为特定类型生成函数定义时，得到的是模板实例）
+
+显示实例化： template void fun `<int>(int &a);`
+
+隐示实例化：声明模板后的调用会实例化一个相应的函数。
+
+加上上述的具体化三者统称为具体化。三者表示的都是使用具体类型的函数定义，而不是通用描述。前缀template 和 template<>区分具体化和显示实例化。
+
+这会直接实例化一个函数，（也叫一个函数定义）。
+
+显示具体化也会直接实例化。
