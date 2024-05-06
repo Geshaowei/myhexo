@@ -257,3 +257,78 @@ auto gt(T1 x,T2y)->decltype(x+y)
 2024.5/4结束
 
 ## Chapter9内存模型和命名空间
+
+动态存储：函数内部声明变量
+
+连接性
+
+外部链接，内部链接。
+
+静态存储类型有3种：
+
+外部链接：函数外声明
+
+其他文件使用 extern关键词进行引用。
+
+file1:int cats; file2:extern int cats; //否则无法使用同命名数据
+
+内部链接：函数外static声明
+
+无连接：函数内static声明
+
+三种均是静态存储，即函数周期结束存储依旧存在，等同文件周期周期
+
+const 变量相当于static 声明，函数为内链接。如果要实现外链接，则需要在所有的文件中都加入extern
+
+### 命名空间
+
+namespace 解决函数冲突问题。方便代码管理使用。
+
+namespace myspace{
+
+}
+
+未命名空间
+
+namespace
+
+{
+
+int counts//相当于在所属文件中的 static int counts  即静态存储 内部链接。
+
+}
+
+在练习题中，其他文件使用namespace 中的函数重载时。需要加上namespace::fun这样才可以使用命名空间中的函数定义。
+
+### using声明和using编译
+
+using namespace std 为编译，使用所有std空间中的变量和声明。
+
+using std：：cin   为声明，在当前作用域使用单个声明。
+
+## Chapter10类
+
+### 什么是类
+
+类是用户定义的类型的定义。类似声明指定了数据将如何存储，同时指定了用来访问和操纵这些数据的方法（类成员函数）。
+
+构造函数:构造函数只会在用户没有定义时提供默认构造函数，如果已经提供则系统不会提供默认构造。
+
+class A ;A a; a = A()。类似这样的赋值，a已经存在，再利用构造函数赋值的时候，会生成一个临时对象，然后进行赋值，之后会调用析构函数删除该临时对象。
+
+同样，C++允许类和结构一样进行A = B赋值。（同类或同结构）。
+
+类作用域内枚举。 enum class {}
+
+作用域内的枚举，由于提升了类型安全，不能隐式转换整形
+
+在类内
+
+```cpp
+class{
+	enum class eggclass{ming,middleg,maxg};
+	int d = int(eggclass::middleg);//不能隐式转化。
+	int f = middleg;//可以//使用的是类外的普通枚举
+}
+enum egg{ming,middleg,maxg};//类内外都有ming的枚举类型，但是加上了class会使得eggclass的作用域在类内，并且由于类型安全不会隐式转换int型。
+```
