@@ -332,3 +332,60 @@ class{
 }
 enum egg{ming,middleg,maxg};//类内外都有ming的枚举类型，但是加上了class会使得eggclass的作用域在类内，并且由于类型安全不会隐式转换int型。
 ```
+
+## Chapter11使用类
+
+### 运算符重载
+
+Time operator +(const Time & t) const;
+
+Time operator*(double n) const;  //都是使用临时对象进行加减乘除，因此使用const限定不改变对象数据。
+
+### 友元
+
+友元函数；友元类；友元成员函数；
+
+```cpp
+//创建友元
+class Time
+{
+...
+public:
+	friend Time operator* (double n,const Time& t);//权限与成员函数相同，但是不能使用成员函数的方式访问。且定义不需要friend关键字。
+}
+```
+
+提示：如果要为类重载运算符，并将非类的项作为其第一个操作符，则可以用友元函数来反转操作数的顺序。
+
+友元的调用：A = n*B  =》 A = operator *(n,B);
+
+常用 << 重载运算符
+
+```
+ostream & operator<<(ostream & os,const Time &t)
+{
+os<<t.hours<<"hours, "<<timinutes
+<<" minutes";
+return os;
+}
+```
+
+之后就可以这样打印类 Time : cout<< t; 因为 hours 和minutes是私有的，因此需要将其设置Time的友元函数。
+
+对于重载运算符，优先使用成员函数，其次再用友元。
+
+### 类的自动转换和强制转换
+
+如果一个类的构造函数只有一个参数，那么 = 可以将等式右边的值隐士转换为对象的值。即使用构造函数构造一个临时对象并且赋值给她
+
+```cpp
+class stone{
+int weight;
+public:
+	stone(int nvalue){weight = nvalue;}
+}
+stone A;
+A = 3;//临时构造一个int为3的stone对象，然后赋值给A；
+explicit 如果夹在stone构造前，就可以关闭这种特性。
+使其只可以显示转换，不能隐式转换。//只有一个参数或者后面参数有默认值才可以隐式转换。
+```
