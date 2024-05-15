@@ -421,3 +421,64 @@ C++指导原则之一：不要为不使用的特性付出代价（内存或者�
 通常编译器处理虚函数的方法是：给每个对象添加一个隐藏成员。隐藏成员中报存了一个指向函数地址数组的指针。这种数组被成为虚函数表。表中存储了为类对象进行声明的虚函数的地址。
 
 友元：在派生类函数中的同名友元中，强制转换为基类，在用基类的运算符。
+
+### 构造函数
+
+无论在派生类的构造函数中是否显示使用基类的构造函数，派生类的构造函数都会默认先调用基类的构造函数，后调用自身的构造函数。
+
+### 析构函数
+
+析构函数的调用顺序相反，默认调用派生类的析构后再调用基类的析构。且调用顺序从最近使用到最远使用。（默认情况）；
+
+### 友元函数
+
+在派生类中可以使用基类的友元函数，常见的是<<运算符，可以使用显示强制转换，将派生类转化为基类，在用 os<<base(baseplus);
+
+### new运算符的使用一定注意
+
+如果在构造函数中使用了 new
+
+则析构一定要delete ，并且要对赋值，复制函数重写：operator= ,和classname(const classname & cn);
+
+## Chapter14 使用类
+
+继承，默认私有继承。 class A：B，私有继承，class A：public B。共有。 私有成员只能类中成员函数访问。
+
+### 类模板
+
+tamplate `<class T>`
+
+class A
+
+{
+
+};
+
+使用 ，STL中的vector 等容器就是模板类，可以通过<>确定模板类型。同时里面的函数也要用模板函数。
+
+### 类型转换
+
+dynamic_cast , const_cast static_cast,类型转换比普通类型转换更安全。
+
+## Chapter15友元异常和其他
+
+
+### Chapter16
+
+智能指针
+
+auto_ptr, unique_ptr,shared_ptr.
+
+```cpp
+unique_ptr<int>pup(new int)
+auto_ptr<string> str(new string "Hello");
+shared_ptr<string> stp3;
+stp3 = stp2;
+stp3 = shared_ptr<string>(new string "ss")
+//智能指针的设计就是为了防止程序员遗忘指针对new 出的匿名变量 忘记delete。
+
+```
+
+unique_ptr 和 auto_ptr 都是建立所有权概念，即只能有一个指针持有内存所有权。但是unique_ptr 会在编译阶段就提醒错误，提示语法错误，这是安全于auto_ptr的，并且 unique_ptr 有 new[] 和 delete[] 的配对情况，auto_ptr只有new delete 的情况。
+
+shared_ptr采用引用计数策略，仅当被被指向对象的引用次数为0时，才会消除对象。
